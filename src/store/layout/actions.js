@@ -48,6 +48,11 @@ export const changeTopbarTheme = topbarTheme => ({
   payload: topbarTheme,
 })
 
+export const showRightSidebarAction = isopen => ({
+  type: SHOW_RIGHT_SIDEBAR,
+  payload: isopen,
+})
+
 export const showSidebar = isopen => ({
   type: SHOW_SIDEBAR,
   payload: isopen,

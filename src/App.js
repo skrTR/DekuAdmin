@@ -20,11 +20,7 @@ import "./assets/scss/theme.scss"
 const App = props => {
   function getLayout() {
     let layoutCls = VerticalLayout
-    switch (props.layout.layoutType) {
-      default:
-        layoutCls = VerticalLayout
-        break
-    }
+
     return layoutCls
   }
 

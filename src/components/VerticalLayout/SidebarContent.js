@@ -9,9 +9,6 @@ import MetisMenu from "metismenujs"
 import { withRouter } from "react-router-dom"
 import { Link } from "react-router-dom"
 
-//i18n
-import { withTranslation } from "react-i18next"
-
 const SidebarContent = props => {
   const ref = useRef()
   // Use ComponentDidMount and ComponentDidUpdate method symultaniously
@@ -104,34 +101,34 @@ const SidebarContent = props => {
                 </li>
               </ul>
             </li> */}
-            <li className="menu-title">{props.t("Баг")}</li>
+            <li className="menu-title">Баг</li>
             <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bxs-user-detail"></i>
-                <span>{props.t("Баг")}</span>
+                <span>Баг</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="/team">{props.t("Баг")}</Link>
+                  <Link to="/team">Баг</Link>
                 </li>
                 <li>
-                  <Link to="/team-create">{props.t("Багын гишүүн нэмэх")}</Link>
+                  <Link to="/team-create">Багын гишүүн нэмэх</Link>
                 </li>
               </ul>
             </li>
-            <li className="menu-title">{props.t("Хэрэгцээнд")}</li>
+            <li className="menu-title">Хэрэгцээнд</li>
 
             <li>
               <Link to="/#" className="has-arrow">
                 <i className="bx bxs-detail"></i>
-                <span>{props.t("Нийтлэл")}</span>
+                <span>Нийтлэл</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="/news">{props.t("Нийтлэл засах")}</Link>
+                  <Link to="/news">Нийтлэл засах</Link>
                 </li>
                 <li>
-                  <Link to="/news-create">{props.t("Нийтлэл нэмэх")}</Link>
+                  <Link to="/news-create">Нийтлэл нэмэх</Link>
                 </li>
               </ul>
             </li>
@@ -139,14 +136,14 @@ const SidebarContent = props => {
             <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-file"></i>
-                <span>{props.t("Товхимол")}</span>
+                <span>Товхимол</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="/brochure">{props.t("Товхимол засах")}</Link>
+                  <Link to="/brochure">Товхимол засах</Link>
                 </li>
                 <li>
-                  <Link to="/brochure-create">{props.t("Товхимол нэмэх")}</Link>
+                  <Link to="/brochure-create">Товхимол нэмэх</Link>
                 </li>
               </ul>
             </li>
@@ -162,4 +159,4 @@ SidebarContent.propTypes = {
   t: PropTypes.any,
 }
 
-export default withRouter(withTranslation()(SidebarContent))
+export default withRouter(SidebarContent)

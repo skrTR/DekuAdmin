@@ -4,7 +4,6 @@ import {
   LOGOUT_USER,
   LOGOUT_USER_SUCCESS,
   API_ERROR,
-  SOCIAL_LOGIN,
 } from "./actionTypes"
 
 export const loginUser = (user, history) => {
@@ -39,12 +38,5 @@ export const apiError = error => {
   return {
     type: API_ERROR,
     payload: error,
-  }
-}
-
-export const socialLogin = (data, history, type) => {
-  return {
-    type: SOCIAL_LOGIN,
-    payload: { data, history, type },
   }
 }

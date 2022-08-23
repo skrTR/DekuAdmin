@@ -97,7 +97,7 @@ function* changeLeftSidebarTheme({ payload: theme }) {
  * Changes the left sidebar theme Image
  * @param {*} param0
  */
-function* changeLeftSidebarThemeImage({ payload: theme }) {
+ function* changeLeftSidebarThemeImage({ payload: theme }) {
   try {
     yield call(changeBodyAttribute, "data-sidebar-image", theme)
   } catch (error) {}
@@ -153,6 +153,15 @@ function* changeLeftSidebarType({ payload: { sidebarType, isMobile } }) {
 }
 
 /**
+ * Show the rightsidebar
+ */
+function* showRightSidebar() {
+  try {
+    yield call(manageBodyClass, "right-bar-enabled", "add")
+  } catch (error) {}
+}
+
+/**
  * Watchers
  */
 export function* watchChangeLayoutType() {
@@ -179,6 +188,10 @@ export function* watchChangeTopbarTheme() {
   yield takeEvery(CHANGE_TOPBAR_THEME, changeTopbarTheme)
 }
 
+export function* watchShowRightSidebar() {
+  yield takeEvery(SHOW_RIGHT_SIDEBAR, showRightSidebar)
+}
+
 function* LayoutSaga() {
   yield all([
     fork(watchChangeLayoutType),
@@ -186,6 +199,7 @@ function* LayoutSaga() {
     fork(watchChangeLeftSidebarTheme),
     fork(watchChangeLeftSidebarThemeImage),
     fork(watchChangeLeftSidebarType),
+    fork(watchShowRightSidebar),
     fork(watchChangeTopbarTheme),
   ])
 }

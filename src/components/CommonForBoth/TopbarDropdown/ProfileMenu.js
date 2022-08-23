@@ -7,16 +7,15 @@ import {
   DropdownItem,
 } from "reactstrap"
 
-//i18n
-import { withTranslation } from "react-i18next"
 // Redux
 import { connect } from "react-redux"
 import { withRouter, Link } from "react-router-dom"
 
+const obj = JSON.parse(localStorage.getItem("authUser"))
+const user1 = obj.user && obj.user.profile
 const ProfileMenu = props => {
   // Declare a new state variable, which we'll call "menu"
   const [menu, setMenu] = useState(false)
-  const obj = JSON.parse(localStorage.getItem("authUser"))
 
   const [username, setusername] = useState("")
 
@@ -30,7 +29,6 @@ const ProfileMenu = props => {
       }
     }
   }, [props.success])
-  const user1 = obj.user && obj.user.profile
   return (
     <React.Fragment>
       <Dropdown
@@ -55,7 +53,7 @@ const ProfileMenu = props => {
           <div className="dropdown-divider" />
           <Link to="/logout" className="dropdown-item">
             <i className="bx bx-power-off font-size-16 align-middle me-1 text-danger" />
-            <span>{props.t("Гарах")}</span>
+            <span>Гарах</span>
           </Link>
         </DropdownMenu>
       </Dropdown>
@@ -69,10 +67,8 @@ ProfileMenu.propTypes = {
 }
 
 const mapStatetoProps = state => {
-  const { error, success } = state.Profile
-  return { error, success }
+  // const { error, success } = state.Profile
+  // return { error, success }
 }
 
-export default withRouter(
-  connect(mapStatetoProps, {})(withTranslation()(ProfileMenu))
-)
+export default withRouter(connect(mapStatetoProps, {})(ProfileMenu))

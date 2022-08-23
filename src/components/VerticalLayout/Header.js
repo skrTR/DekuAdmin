@@ -9,9 +9,6 @@ import ProfileMenu from "../CommonForBoth/TopbarDropdown/ProfileMenu"
 import logo from "../../assets/images/logo.svg"
 import logoLightSvg from "../../assets/images/logo-light.svg"
 
-//i18n
-import { withTranslation } from "react-i18next"
-
 // Redux Store
 import { toggleLeftmenu, changeSidebarType } from "../../store/actions"
 
@@ -121,4 +118,4 @@ const mapStatetoProps = state => {
 export default connect(mapStatetoProps, {
   toggleLeftmenu,
   changeSidebarType,
-})(withTranslation()(Header))
+})(Header)

@@ -20,7 +20,7 @@ import {
   leftBarThemeImageTypes,
   leftSidebarTypes,
   leftSideBarThemeTypes,
-} from "../../constants/layout"
+} from "../../constants/layout";
 
 const INIT_STATE = {
   layoutType: layoutTypes.VERTICAL,
@@ -30,6 +30,7 @@ const INIT_STATE = {
   leftSideBarType: leftSidebarTypes.DEFAULT,
   topbarTheme: topBarThemeTypes.LIGHT,
   isPreloader: false,
+  showRightSidebar: false,
   isMobile: false,
   showSidebar: true,
   leftMenu: false,
@@ -73,7 +74,11 @@ const Layout = (state = INIT_STATE, action) => {
         ...state,
         topbarTheme: action.payload,
       }
-
+    case SHOW_RIGHT_SIDEBAR:
+      return {
+        ...state,
+        showRightSidebar: action.payload,
+      }
     case SHOW_SIDEBAR:
       return {
         ...state,
