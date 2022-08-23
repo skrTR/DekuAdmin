@@ -18,7 +18,7 @@ function* loginUser({ payload: { user, history } }) {
       yield put(loginSuccess(response))
     }
 
-    history.push("/dashboard")
+    history.push("/team")
   } catch (error) {
     yield put(apiError(error))
   }

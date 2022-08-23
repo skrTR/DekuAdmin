@@ -11,8 +11,7 @@ import {
 import { connect } from "react-redux"
 import { withRouter, Link } from "react-router-dom"
 
-const obj = JSON.parse(localStorage.getItem("authUser"))
-const user1 = obj.user && obj.user.profile
+import user1 from "../../../assets/images/users/avatar-1.jpg"
 const ProfileMenu = props => {
   // Declare a new state variable, which we'll call "menu"
   const [menu, setMenu] = useState(false)
@@ -25,6 +24,8 @@ const ProfileMenu = props => {
         process.env.REACT_APP_DEFAULTAUTH === "fake" ||
         process.env.REACT_APP_DEFAULTAUTH === "jwt"
       ) {
+        const obj = JSON.parse(localStorage.getItem("authUser"))
+
         setusername(obj.user && obj.user.firstName)
       }
     }
@@ -43,7 +44,7 @@ const ProfileMenu = props => {
         >
           <img
             className="rounded-circle header-profile-user"
-            src={`http://167.71.196.5/upload/${user1}`}
+            src={user1}
             alt="Header Avatar"
           />
           <span className="d-none d-xl-inline-block ms-2 me-1">{username}</span>

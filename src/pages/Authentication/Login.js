@@ -27,7 +27,7 @@ import { loginUser } from "../../store/actions"
 
 // import images
 import profile from "assets/images/profile-img.png"
-import logo from "assets/images/logo.svg"
+import logo from "assets/images/logo-light.svg"
 
 const Login = props => {
   //meta title
@@ -72,8 +72,8 @@ const Login = props => {
                   <Row>
                     <Col xs={7}>
                       <div className="text-primary p-4">
-                        <h5 className="text-primary">Welcome Back !</h5>
-                        <p>Sign in to continue to Skote.</p>
+                        <h5 className="text-primary">Тавтай морил !</h5>
+                        <p>Нэвтрэх хуудас Medialab.</p>
                       </div>
                     </Col>
                     <Col className="col-5 align-self-end">
@@ -154,34 +154,13 @@ const Login = props => {
                         ) : null}
                       </div>
 
-                      <div className="form-check">
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          id="customControlInline"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="customControlInline"
-                        >
-                          Remember me
-                        </label>
-                      </div>
-
                       <div className="mt-3 d-grid">
                         <button
                           className="btn btn-primary btn-block"
                           type="submit"
                         >
-                          Log In
+                          Нэвтрэх
                         </button>
-                      </div>
-
-                      <div className="mt-4 text-center">
-                        <Link to="/forgot-password" className="text-muted">
-                          <i className="mdi mdi-lock me-1" />
-                          Forgot your password?
-                        </Link>
                       </div>
                     </Form>
                   </div>
@@ -189,15 +168,8 @@ const Login = props => {
               </Card>
               <div className="mt-5 text-center">
                 <p>
-                  Don&#39;t have an account ?{" "}
-                  <Link to="/register" className="fw-medium text-primary">
-                    {" "}
-                    Signup now{" "}
-                  </Link>{" "}
-                </p>
-                <p>
-                  © {new Date().getFullYear()} Skote. Crafted with{" "}
-                  <i className="mdi mdi-heart text-danger" /> by Themesbrand
+                  © {new Date().getFullYear()} Medialab
+                  <i className="mdi mdi-heart text-danger" />
                 </p>
               </div>
             </Col>
