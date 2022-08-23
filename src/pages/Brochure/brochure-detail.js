@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import Dropzone from "react-dropzone"
 import {
   Button,
@@ -25,7 +25,9 @@ import { deleteBrochure as onDeleteBrochure } from "store/brochure/actions"
 import axios from "axios"
 import DeleteModal from "common/DeleteModal"
 import { useFormik } from "formik"
+import { toast } from "react-toastify"
 const BrochureDetail = props => {
+  let history = useHistory()
   //meta title
   document.title = "Medialab Hийтлэл засах"
   const dispatch = useDispatch()
@@ -71,6 +73,8 @@ const BrochureDetail = props => {
         )
         .then(res => {
           const newNews = res.data.data
+          history.push("/brochure")
+          toast("Амжиллтай өөрчиллөө")
           if (selectedFiles[0]) {
             const xhr = new XMLHttpRequest()
             const data = new FormData()
@@ -313,47 +317,59 @@ const BrochureDetail = props => {
                             )}
                           </Dropzone>
 
-                          <div
-                            className="dropzone-previews mt-3"
-                            id="file-previews"
-                          >
-                            {selectedFiles.map((f, i) => {
-                              return (
-                                <Card
-                                  className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
-                                  key={i + "-file"}
-                                >
-                                  <div className="p-2">
-                                    <Row className="align-items-center">
-                                      <Col className="col-auto">
-                                        <img
-                                          data-dz-thumbnail=""
-                                          height="80"
-                                          className="avatar-sm rounded bg-light"
-                                          alt={f.name}
-                                          src={f.preview}
-                                        />
-                                      </Col>
-                                      <Col>
-                                        <Link
-                                          to="#"
-                                          className="text-muted font-weight-bold"
-                                        >
-                                          {f.name}
-                                        </Link>
-                                        <p className="mb-0">
-                                          <strong>{f.formattedSize}</strong>
-                                        </p>
-                                      </Col>
-                                    </Row>
-                                  </div>
-                                </Card>
-                              )
-                            })}
-                          </div>
+                          {selectedFiles[0] ? (
+                            <div
+                              className="dropzone-previews mt-3"
+                              id="file-previews"
+                            >
+                              {selectedFiles.map((f, i) => {
+                                return (
+                                  <Card
+                                    className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
+                                    key={i + "-file"}
+                                  >
+                                    <div className="p-2">
+                                      <Row className="align-items-center">
+                                        <Col className="col-auto">
+                                          <img
+                                            data-dz-thumbnail=""
+                                            height="80"
+                                            className="avatar-sm rounded bg-light"
+                                            alt={f.name}
+                                            src={f.preview}
+                                          />
+                                        </Col>
+                                        <Col>
+                                          <Link
+                                            to="#"
+                                            className="text-muted font-weight-bold"
+                                          >
+                                            {f.name}
+                                          </Link>
+                                          <p className="mb-0">
+                                            <strong>{f.formattedSize}</strong>
+                                          </p>
+                                        </Col>
+                                      </Row>
+                                    </div>
+                                  </Card>
+                                )
+                              })}
+                            </div>
+                          ) : (
+                            brochureDetail.profile && (
+                              <img
+                                className="mt-4"
+                                src={`http://167.71.196.5/upload/${brochureDetail.profile}`}
+                                alt={"profile"}
+                                height={80}
+                              />
+                            )
+                          )}
                         </Form>
                       </Col>
                     </Row>
+
                     <Row className="mb-4">
                       <Label className="col-form-label col-lg-2">
                         Толгой зураг
@@ -361,8 +377,8 @@ const BrochureDetail = props => {
                       <Col lg="10">
                         <Form>
                           <Dropzone
-                            onDrop={acceptedFiles1 => {
-                              handleAcceptedFiles1(acceptedFiles1)
+                            onDrop={acceptedFiles => {
+                              handleAcceptedFiles1(acceptedFiles)
                             }}
                           >
                             {({ getRootProps, getInputProps }) => (
@@ -376,51 +392,61 @@ const BrochureDetail = props => {
                                     <div className="mb-3">
                                       <i className="display-4 text-muted bx bxs-cloud-upload" />
                                     </div>
-                                    <h4>Та толгой зурагаа оруулна уу.</h4>
+                                    <h4>Толгой зураг оруулах.</h4>
                                   </div>
                                 </div>
                               </div>
                             )}
                           </Dropzone>
-
-                          <div
-                            className="dropzone-previews mt-3"
-                            id="file-previews"
-                          >
-                            {selectedFiles1.map((f, i) => {
-                              return (
-                                <Card
-                                  className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
-                                  key={i + "-file"}
-                                >
-                                  <div className="p-2">
-                                    <Row className="align-items-center">
-                                      <Col className="col-auto">
-                                        <img
-                                          data-dz-thumbnail=""
-                                          height="80"
-                                          className="avatar-sm rounded bg-light"
-                                          alt={f.name}
-                                          src={f.preview}
-                                        />
-                                      </Col>
-                                      <Col>
-                                        <Link
-                                          to="#"
-                                          className="text-muted font-weight-bold"
-                                        >
-                                          {f.name}
-                                        </Link>
-                                        <p className="mb-0">
-                                          <strong>{f.formattedSize}</strong>
-                                        </p>
-                                      </Col>
-                                    </Row>
-                                  </div>
-                                </Card>
-                              )
-                            })}
-                          </div>
+                          {selectedFiles1[0] ? (
+                            <div
+                              className="dropzone-previews mt-3"
+                              id="file-previews"
+                            >
+                              {selectedFiles1.map((f, i) => {
+                                return (
+                                  <Card
+                                    className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
+                                    key={i + "-file"}
+                                  >
+                                    <div className="p-2">
+                                      <Row className="align-items-center">
+                                        <Col className="col-auto">
+                                          <img
+                                            data-dz-thumbnail=""
+                                            height="80"
+                                            className="avatar-sm rounded bg-light"
+                                            alt={f.name}
+                                            src={f.preview}
+                                          />
+                                        </Col>
+                                        <Col>
+                                          <Link
+                                            to="#"
+                                            className="text-muted font-weight-bold"
+                                          >
+                                            {f.name}
+                                          </Link>
+                                          <p className="mb-0">
+                                            <strong>{f.formattedSize}</strong>
+                                          </p>
+                                        </Col>
+                                      </Row>
+                                    </div>
+                                  </Card>
+                                )
+                              })}
+                            </div>
+                          ) : (
+                            brochureDetail.image && (
+                              <img
+                                className="mt-4"
+                                src={`http://167.71.196.5/upload/${brochureDetail.image}`}
+                                alt={"zurag"}
+                                height={80}
+                              />
+                            )
+                          )}
                         </Form>
                       </Col>
                     </Row>

@@ -16,6 +16,8 @@ import NonAuthLayout from "./components/NonAuthLayout"
 
 // Import scss
 import "./assets/scss/theme.scss"
+import { UncontrolledAlert } from "reactstrap"
+import { ToastContainer } from "react-toastify"
 
 const App = props => {
   function getLayout() {
@@ -27,6 +29,7 @@ const App = props => {
   const Layout = getLayout()
   return (
     <React.Fragment>
+      <ToastContainer />
       <Router>
         <Switch>
           {publicRoutes.map((route, idx) => (

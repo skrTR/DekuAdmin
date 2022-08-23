@@ -30,7 +30,6 @@ import {
   updateUser,
   deleteUser,
 } from "../../helpers/fakebackend_helper"
-
 function* fetchUsers() {
   try {
     const response = yield call(getUsers)

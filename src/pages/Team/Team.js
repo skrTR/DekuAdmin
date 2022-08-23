@@ -16,15 +16,17 @@ import {
   UncontrolledTooltip,
   Input,
   Form,
+  Button,
 } from "reactstrap"
 import * as Yup from "yup"
 import { useFormik } from "formik"
-
+import { ToastContainer, toast } from "react-toastify"
 import { Name, Email, Tags, Projects, Img } from "./contactlistCol"
 
 //Import Breadcrumb
 import Breadcrumbs from "components/Common/Breadcrumb"
 import DeleteModal from "components/Common/DeleteModal"
+import "react-toastify/dist/ReactToastify.css"
 
 import {
   getUsers as onGetUsers,
@@ -47,6 +49,7 @@ const Team = props => {
     Authorization: `Bearer ${token}`,
   }
   const [contact, setContact] = useState()
+
   // validation
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
@@ -57,6 +60,7 @@ const Team = props => {
       email: (contact && contact.email) || "",
       phone: (contact && contact.phone) || "",
       role: (contact && contact.role) || "",
+      occupation: (contact && contact.occupation) || "",
       // password: (password && contact.password) || "",
     },
     validationSchema: Yup.object({
@@ -64,6 +68,7 @@ const Team = props => {
       email: Yup.string().required("Please Enter Your Email"),
       phone: Yup.number().required("Please Enter Your Project"),
       role: Yup.string().required("Please Enter Tag"),
+      occupation: Yup.string().required("Please Enter Tag"),
     }),
 
     onSubmit: values => {
@@ -83,21 +88,25 @@ const Team = props => {
           { headers }
         )
         .then(res => {
-          const xhr = new XMLHttpRequest()
-          const data = new FormData()
-          data.append("file", selectedFiles[0])
-          xhr.open(
-            "PUT",
-            `http://167.71.196.5/api/v1/users/${contact.id}/profile`,
-            { headers }
-          )
-          xhr.send(data)
+          if (selectedFiles[0]) {
+            const xhr = new XMLHttpRequest()
+            const data = new FormData()
+            data.append("file", selectedFiles[0])
+            xhr.open(
+              "PUT",
+              `http://167.71.196.5/api/v1/users/${contact.id}/profile`,
+              { headers }
+            )
+            xhr.send(data)
+          }
           validation.resetForm()
+          toast("Амжиллтай өөрчиллөө")
           setIsEdit(false)
           toggle()
         })
         .catch(err => {
           console.log(err)
+          toast("Алдаа")
         })
     },
   })
@@ -149,6 +158,19 @@ const Team = props => {
       {
         Header: "Утасны дугаар",
         accessor: "phone",
+        filterable: true,
+        disableFilters: true,
+        Cell: cellProps => {
+          return (
+            <>
+              <Projects {...cellProps} />
+            </>
+          )
+        },
+      },
+      {
+        Header: "Албан тушаал",
+        accessor: "occupation",
         filterable: true,
         disableFilters: true,
         Cell: cellProps => {
@@ -243,6 +265,7 @@ const Team = props => {
       email: user.email,
       phone: user.phone,
       role: user.role,
+      occupation: user.occupation,
     })
     setIsEdit(true)
 
@@ -274,6 +297,7 @@ const Team = props => {
     dispatch(onDeleteUser(contact._id))
     onPaginationPageChange(1)
     setDeleteModal(false)
+    toast("Амжиллтай устгалаа")
   }
 
   const handleUserClicks = () => {
@@ -309,6 +333,7 @@ const Team = props => {
         onCloseClick={() => setDeleteModal(false)}
       />
       <div className="page-content">
+        <ToastContainer />
         <Container fluid>
           {/* Render Breadcrumbs */}
           <Breadcrumbs breadcrumbItem="Багын гишүүд" />
@@ -410,6 +435,17 @@ const Team = props => {
                                   {validation.errors.phone}
                                 </FormFeedback>
                               ) : null}
+                            </div>
+                            <div className="mb-3">
+                              <Label className="form-label">Албан тушаал</Label>
+                              <Input
+                                name="occupation"
+                                label="occupation"
+                                type="text"
+                                onChange={validation.handleChange}
+                                onBlur={validation.handleBlur}
+                                value={validation.values.occupation || ""}
+                              />
                             </div>
                             <div className="mb-3">
                               <Label className="form-label">Эрх</Label>

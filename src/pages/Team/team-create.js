@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import Dropzone from "react-dropzone"
 import {
   Button,
@@ -15,12 +15,12 @@ import {
   Row,
 } from "reactstrap"
 import "react-datepicker/dist/react-datepicker.css"
-
+import { toast } from "react-toastify"
 import { useFormik } from "formik"
 import Breadcrumbs from "../../components/Common/Breadcrumb"
 import axios from "axios"
-
 const TeamCreate = () => {
+  let history = useHistory()
   const [selectedFiles, setselectedFiles] = useState([])
   const token = JSON.parse(localStorage.getItem("amazon-token"))
   const headers = {
@@ -30,14 +30,14 @@ const TeamCreate = () => {
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
     initialValues: {
-      email: "skrboi@gmail.com",
-      lastName: "H. ",
-      firstName: "skraa",
-      occupation: "It developer",
-      phone: "97014400",
-      password: "123456",
+      email: "",
+      lastName: "",
+      firstName: "",
+      occupation: "",
+      phone: "",
+      password: "",
       team: "Media Lab",
-      role: "admin",
+      role: "",
     },
     onSubmit: values => {
       axios
@@ -57,18 +57,32 @@ const TeamCreate = () => {
         )
         .then(res => {
           const newNews = res.data.data
-          const xhr = new XMLHttpRequest()
-          const data = new FormData()
-          data.append("file", selectedFiles[0])
-          xhr.open(
-            "PUT",
-            `http://167.71.196.5/api/v1/users/${newNews._id}/profile`,
-            { headers }
-          )
-          xhr.send(data)
+          toast("Амжиллтай гишүүн нэмлээ")
+          history.push("/team")
+          if (selectedFiles[0]) {
+            const xhr = new XMLHttpRequest()
+            const data = new FormData()
+            data.append("file", selectedFiles[0])
+            xhr.open(
+              "PUT",
+              `http://167.71.196.5/api/v1/users/${newNews._id}/profile`,
+              { headers }
+            )
+            xhr.send(data)
+          }
         })
         .catch(err => {
           console.log(err)
+          if (
+            err.response.data.error.message ===
+            "Энэ талбарын утгыг давхардуулж өгч болохгүй!"
+          ) {
+            toast("Бүртгүүлсэн хэрэглэгч байна")
+          } else if (err.response.data.error.message) {
+            toast(err.response.data.error.message)
+          } else {
+            toast(err.message)
+          }
         })
     },
   })
@@ -203,6 +217,29 @@ const TeamCreate = () => {
                           invalid={
                             validation.touched.occupation &&
                             validation.errors.occupation
+                              ? true
+                              : false
+                          }
+                        />
+                      </Col>
+                    </FormGroup>
+                    <FormGroup className="mb-4" row>
+                      <Label
+                        htmlFor="projectdesc"
+                        className="col-form-label col-lg-2"
+                      >
+                        Эрх Жн: user admin
+                      </Label>
+                      <Col lg="10">
+                        <Input
+                          id="role"
+                          name="role"
+                          type="text"
+                          onChange={validation.handleChange}
+                          onBlur={validation.handleBlur}
+                          value={validation.values.role || ""}
+                          invalid={
+                            validation.touched.role && validation.errors.role
                               ? true
                               : false
                           }

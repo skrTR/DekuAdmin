@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import Dropzone from "react-dropzone"
 import {
   Button,
@@ -15,13 +15,16 @@ import {
   Row,
 } from "reactstrap"
 import "react-datepicker/dist/react-datepicker.css"
+import { ToastContainer, toast } from "react-toastify"
 
 import { useFormik } from "formik"
 import Breadcrumbs from "../../components/Common/Breadcrumb"
 import axios from "axios"
 
 const NewsCreate = () => {
+  let history = useHistory()
   const [selectedFiles, setselectedFiles] = useState([])
+  const [selectedFiles1, setselectedFiles1] = useState([])
   const token = JSON.parse(localStorage.getItem("amazon-token"))
   const headers = {
     Authorization: `Bearer ${token}`,
@@ -30,11 +33,11 @@ const NewsCreate = () => {
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
     initialValues: {
-      title: "Монгол default ойрын 1000жилд default зарлахгүй",
-      body: "World",
-      body1: "darkscary@gmail.com",
-      body2: "Монголын хаа нэгтэй ",
-      category: "УШ99010101",
+      title: "",
+      body: "",
+      body1: "",
+      body2: "",
+      category: "",
     },
     onSubmit: values => {
       axios
@@ -50,16 +53,31 @@ const NewsCreate = () => {
           { headers }
         )
         .then(res => {
+          toast("Амжилттай нийтлэл орлоо")
+          history.push("/news")
           const newNews = res.data.data
-          const xhr = new XMLHttpRequest()
-          const data = new FormData()
-          data.append("file", selectedFiles[0])
-          xhr.open(
-            "PUT",
-            `http://167.71.196.5/api/v1/articles/${newNews._id}/profile`,
-            { headers }
-          )
-          xhr.send(data)
+          if (selectedFiles[0]) {
+            const xhr = new XMLHttpRequest()
+            const data = new FormData()
+            data.append("file", selectedFiles[0])
+            xhr.open(
+              "PUT",
+              `http://167.71.196.5/api/v1/articles/${newNews._id}/profile`,
+              { headers }
+            )
+            xhr.send(data)
+          }
+          if (selectedFiles1[0]) {
+            const xhr1 = new XMLHttpRequest()
+            const data1 = new FormData()
+            data1.append("file", selectedFiles1[0])
+            xhr1.open(
+              "PUT",
+              `http://167.71.196.5/api/v1/articles/${newNews._id}/photo`,
+              { headers }
+            )
+            xhr1.send(data1)
+          }
         })
         .catch(err => {
           console.log(err)
@@ -77,6 +95,15 @@ const NewsCreate = () => {
     )
 
     setselectedFiles(files)
+  }
+  function handleAcceptedFiles1(files) {
+    files.map(file =>
+      Object.assign(file, {
+        preview: URL.createObjectURL(file),
+        formattedSize: formatBytes(file.size),
+      })
+    )
+    setselectedFiles1(files)
   }
 
   function formatBytes(bytes, decimals = 2) {
@@ -259,6 +286,76 @@ const NewsCreate = () => {
                             id="file-previews"
                           >
                             {selectedFiles.map((f, i) => {
+                              return (
+                                <Card
+                                  className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
+                                  key={i + "-file"}
+                                >
+                                  <div className="p-2">
+                                    <Row className="align-items-center">
+                                      <Col className="col-auto">
+                                        <img
+                                          data-dz-thumbnail=""
+                                          height="80"
+                                          className="avatar-sm rounded bg-light"
+                                          alt={f.name}
+                                          src={f.preview}
+                                        />
+                                      </Col>
+                                      <Col>
+                                        <Link
+                                          to="#"
+                                          className="text-muted font-weight-bold"
+                                        >
+                                          {f.name}
+                                        </Link>
+                                        <p className="mb-0">
+                                          <strong>{f.formattedSize}</strong>
+                                        </p>
+                                      </Col>
+                                    </Row>
+                                  </div>
+                                </Card>
+                              )
+                            })}
+                          </div>
+                        </Form>
+                      </Col>
+                    </Row>
+                    <Row className="mb-4">
+                      <Label className="col-form-label col-lg-2">
+                        Толгой зураг
+                      </Label>
+                      <Col lg="10">
+                        <Form>
+                          <Dropzone
+                            onDrop={acceptedFiles => {
+                              handleAcceptedFiles1(acceptedFiles)
+                            }}
+                          >
+                            {({ getRootProps, getInputProps }) => (
+                              <div className="dropzone">
+                                <div
+                                  className="dz-message needsclick"
+                                  {...getRootProps()}
+                                >
+                                  <input {...getInputProps()} />
+                                  <div className="dz-message needsclick">
+                                    <div className="mb-3">
+                                      <i className="display-4 text-muted bx bxs-cloud-upload" />
+                                    </div>
+                                    <h4>Drop files here or click to upload.</h4>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </Dropzone>
+
+                          <div
+                            className="dropzone-previews mt-3"
+                            id="file-previews"
+                          >
+                            {selectedFiles1.map((f, i) => {
                               return (
                                 <Card
                                   className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"

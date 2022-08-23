@@ -10,7 +10,6 @@ import {
   DELETE_PROJECT_SUCCESS,
   DELETE_PROJECT_FAIL,
 } from "./actionTypes"
-
 const INIT_STATE = {
   projects: [],
   projectDetail: {},

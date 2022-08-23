@@ -17,17 +17,18 @@ import {
 
 import "react-datepicker/dist/react-datepicker.css"
 import { useSelector, useDispatch } from "react-redux"
-
+import { toast } from "react-toastify"
 import Breadcrumbs from "../../components/Common/Breadcrumb"
 import {
   getProjectDetail as onGetProjectDetail,
   deleteProject as onDeleteProject,
 } from "store/projects/actions"
-
+import { useHistory } from "react-router-dom"
 import axios from "axios"
 import DeleteModal from "common/DeleteModal"
 import { useFormik } from "formik"
 const NewsDetails = props => {
+  let history = useHistory()
   //meta title
   document.title = "Medialab товхимол засах"
   const dispatch = useDispatch()
@@ -41,8 +42,8 @@ const NewsDetails = props => {
   } = props
   //delete order
   const [deleteModal, setDeleteModal] = useState(false)
-  const [project, setProject] = useState()
   const [selectedFiles, setselectedFiles] = useState([])
+  const [selectedFiles1, setselectedFiles1] = useState([])
   const token = JSON.parse(localStorage.getItem("amazon-token"))
   const headers = {
     Authorization: `Bearer ${token}`,
@@ -71,21 +72,35 @@ const NewsDetails = props => {
           { headers }
         )
         .then(res => {
+          toast("Амжилттай өөрчиллөө")
           const newNews = res.data.data
-          const xhr = new XMLHttpRequest()
-          const data = new FormData()
-          data.append("file", selectedFiles[0])
-          xhr.open(
-            "PUT",
-            `http://167.71.196.5/api/v1/articles/${newNews._id}/profile`,
-            { headers }
-          )
-          xhr.send(data)
-          console.log(data)
-          console.log(res.data.data)
+          if (selectedFiles[0]) {
+            const xhr = new XMLHttpRequest()
+            const data = new FormData()
+            data.append("file", selectedFiles[0])
+            xhr.open(
+              "PUT",
+              `http://167.71.196.5/api/v1/articles/${newNews._id}/profile`,
+              { headers }
+            )
+            xhr.send(data)
+          }
+          if (selectedFiles1[0]) {
+            const xhr = new XMLHttpRequest()
+            const data = new FormData()
+            data.append("file", selectedFiles1[0])
+            xhr.open(
+              "PUT",
+              `http://167.71.196.5/api/v1/articles/${newNews._id}/photo`,
+              { headers }
+            )
+            xhr.send(data)
+          }
+          history.push("/news")
         })
         .catch(err => {
           console.log(err)
+          toast(err.message)
         })
     },
   })
@@ -99,6 +114,16 @@ const NewsDetails = props => {
     )
 
     setselectedFiles(files)
+  }
+  function handleAcceptedFiles1(files) {
+    files.map(file =>
+      Object.assign(file, {
+        preview: URL.createObjectURL(file),
+        formattedSize: formatBytes(file.size),
+      })
+    )
+
+    setselectedFiles1(files)
   }
 
   function formatBytes(bytes, decimals = 2) {
@@ -122,6 +147,7 @@ const NewsDetails = props => {
   const handleDeleteOrder = () => {
     dispatch(onDeleteProject(projectDetail._id))
     setDeleteModal(false)
+    history.push("/news")
   }
   return (
     <React.Fragment>
@@ -293,44 +319,136 @@ const NewsDetails = props => {
                             )}
                           </Dropzone>
 
-                          <div
-                            className="dropzone-previews mt-3"
-                            id="file-previews"
+                          {selectedFiles[0] ? (
+                            <div
+                              className="dropzone-previews mt-3"
+                              id="file-previews"
+                            >
+                              {selectedFiles.map((f, i) => {
+                                return (
+                                  <Card
+                                    className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
+                                    key={i + "-file"}
+                                  >
+                                    <div className="p-2">
+                                      <Row className="align-items-center">
+                                        <Col className="col-auto">
+                                          <img
+                                            data-dz-thumbnail=""
+                                            height="80"
+                                            className="avatar-sm rounded bg-light"
+                                            alt={f.name}
+                                            src={f.preview}
+                                          />
+                                        </Col>
+                                        <Col>
+                                          <Link
+                                            to="#"
+                                            className="text-muted font-weight-bold"
+                                          >
+                                            {f.name}
+                                          </Link>
+                                          <p className="mb-0">
+                                            <strong>{f.formattedSize}</strong>
+                                          </p>
+                                        </Col>
+                                      </Row>
+                                    </div>
+                                  </Card>
+                                )
+                              })}
+                            </div>
+                          ) : (
+                            projectDetail.profile && (
+                              <img
+                                className="mt-4"
+                                src={`http://167.71.196.5/upload/${projectDetail.profile}`}
+                                alt={"profile"}
+                                height={80}
+                              />
+                            )
+                          )}
+                        </Form>
+                      </Col>
+                    </Row>
+
+                    <Row className="mb-4">
+                      <Label className="col-form-label col-lg-2">
+                        Толгой зураг
+                      </Label>
+                      <Col lg="10">
+                        <Form>
+                          <Dropzone
+                            onDrop={acceptedFiles => {
+                              handleAcceptedFiles1(acceptedFiles)
+                            }}
                           >
-                            {selectedFiles.map((f, i) => {
-                              return (
-                                <Card
-                                  className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
-                                  key={i + "-file"}
+                            {({ getRootProps, getInputProps }) => (
+                              <div className="dropzone">
+                                <div
+                                  className="dz-message needsclick"
+                                  {...getRootProps()}
                                 >
-                                  <div className="p-2">
-                                    <Row className="align-items-center">
-                                      <Col className="col-auto">
-                                        <img
-                                          data-dz-thumbnail=""
-                                          height="80"
-                                          className="avatar-sm rounded bg-light"
-                                          alt={f.name}
-                                          src={f.preview}
-                                        />
-                                      </Col>
-                                      <Col>
-                                        <Link
-                                          to="#"
-                                          className="text-muted font-weight-bold"
-                                        >
-                                          {f.name}
-                                        </Link>
-                                        <p className="mb-0">
-                                          <strong>{f.formattedSize}</strong>
-                                        </p>
-                                      </Col>
-                                    </Row>
+                                  <input {...getInputProps()} />
+                                  <div className="dz-message needsclick">
+                                    <div className="mb-3">
+                                      <i className="display-4 text-muted bx bxs-cloud-upload" />
+                                    </div>
+                                    <h4>Толгой зураг оруулах.</h4>
                                   </div>
-                                </Card>
-                              )
-                            })}
-                          </div>
+                                </div>
+                              </div>
+                            )}
+                          </Dropzone>
+                          {selectedFiles1[0] ? (
+                            <div
+                              className="dropzone-previews mt-3"
+                              id="file-previews"
+                            >
+                              {selectedFiles1.map((f, i) => {
+                                return (
+                                  <Card
+                                    className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
+                                    key={i + "-file"}
+                                  >
+                                    <div className="p-2">
+                                      <Row className="align-items-center">
+                                        <Col className="col-auto">
+                                          <img
+                                            data-dz-thumbnail=""
+                                            height="80"
+                                            className="avatar-sm rounded bg-light"
+                                            alt={f.name}
+                                            src={f.preview}
+                                          />
+                                        </Col>
+                                        <Col>
+                                          <Link
+                                            to="#"
+                                            className="text-muted font-weight-bold"
+                                          >
+                                            {f.name}
+                                          </Link>
+                                          <p className="mb-0">
+                                            <strong>{f.formattedSize}</strong>
+                                          </p>
+                                        </Col>
+                                      </Row>
+                                    </div>
+                                  </Card>
+                                )
+                              })}
+                            </div>
+                          ) : (
+                            projectDetail.image && (
+                              <img
+                                className="mt-4"
+                                src={`http://167.71.196.5/upload/${projectDetail.image}`}
+                                alt={"zurag"}
+                                height={80}
+                              />
+                            )
+                          )}
                         </Form>
                       </Col>
                     </Row>
@@ -345,7 +463,7 @@ const NewsDetails = props => {
                           color="danger"
                           onClick={() => onClickDelete()}
                         >
-                          Засах
+                          Устгах
                         </Button>
                       </Col>
                     </Row>

@@ -19,8 +19,10 @@ import "react-datepicker/dist/react-datepicker.css"
 import { useFormik } from "formik"
 import Breadcrumbs from "../../components/Common/Breadcrumb"
 import axios from "axios"
-
+import { useHistory } from "react-router-dom"
+import { toast } from "react-toastify"
 const BrochureCreate = () => {
+  let history = useHistory()
   const [selectedFiles, setselectedFiles] = useState([])
   const [selectedFiles1, setselectedFiles1] = useState([])
   const token = JSON.parse(localStorage.getItem("amazon-token"))
@@ -31,11 +33,11 @@ const BrochureCreate = () => {
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
     initialValues: {
-      title: "Монгол default ойрын 1000жилд default зарлахгүй",
-      body: "World",
-      body1: "darkscary@gmail.com",
-      body2: "Монголын хаа нэгтэй ",
-      category: "УШ99010101",
+      title: "",
+      body: "",
+      body1: "",
+      body2: "",
+      category: "",
     },
     onSubmit: values => {
       axios
@@ -51,6 +53,7 @@ const BrochureCreate = () => {
           { headers }
         )
         .then(res => {
+          toast("Амжилттай товхимол орлоо")
           const newNews = res.data.data
           if (selectedFiles[0]) {
             const xhr = new XMLHttpRequest()
@@ -74,9 +77,11 @@ const BrochureCreate = () => {
             )
             xhr1.send(data1)
           }
+          history.push("/brochure")
         })
         .catch(err => {
           console.log(err)
+          toast(err.message)
         })
     },
   })

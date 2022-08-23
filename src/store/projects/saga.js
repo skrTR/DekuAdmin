@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from "redux-saga/effects"
-
+import { toast } from "react-toastify"
 // Crypto Redux States
 import {
   GET_PROJECTS,
@@ -29,7 +29,6 @@ import {
   updateProject,
   deleteProject,
 } from "helpers/fakebackend_helper"
-
 function* fetchProjects() {
   try {
     const response = yield call(getProjects)
@@ -60,8 +59,18 @@ function* onUpdateProject({ payload: project }) {
 function* onDeleteProject({ payload: project }) {
   try {
     const response = yield call(deleteProject, project)
+    toast("Амжиллтай устгалаа")
     yield put(deleteProjectSuccess(response))
   } catch (error) {
+    let message = error.message
+    if (
+      message === "Cannot read properties of undefined (reading 'toString')"
+    ) {
+      return null
+    } else {
+      toast(message)
+    }
+
     yield put(deleteProjectFail(error))
   }
 }

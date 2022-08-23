@@ -72,4 +72,4 @@ const mapStatetoProps = state => {
   // return { error, success }
 }
 
-export default withRouter(connect(mapStatetoProps, {})(ProfileMenu))
+export default withRouter(connect(mapStatetoProps, null)(ProfileMenu))

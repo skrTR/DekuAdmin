@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from "redux-saga/effects"
-
+import { toast } from "react-toastify"
 // Crypto Redux States
 import {
   GET_BROCHURES,
@@ -39,8 +39,17 @@ function* fetchBrochureDetail({ brochureId }) {
 function* onDeleteBrochure({ payload: brochure }) {
   try {
     const response = yield call(deleteBrochure, brochure)
+    toast("Амжилттай устгаллаа")
     yield put(deleteBrochureSuccess(response))
   } catch (error) {
+    let message = error.message
+    if (
+      message === "Cannot read properties of undefined (reading 'toString')"
+    ) {
+      return null
+    } else {
+      toast(message)
+    }
     yield put(deleteBrochureFail(error))
   }
 }
