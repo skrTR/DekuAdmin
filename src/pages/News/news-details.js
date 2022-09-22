@@ -61,7 +61,7 @@ const NewsDetails = props => {
     onSubmit: values => {
       axios
         .put(
-          `http://167.71.196.5/api/v1/articles/${projectDetail._id}`,
+          `https://medialabadmin.com/api/v1/articles/${projectDetail._id}`,
           {
             title: values["title"],
             body: values["body"],
@@ -80,7 +80,7 @@ const NewsDetails = props => {
             data.append("file", selectedFiles[0])
             xhr.open(
               "PUT",
-              `http://167.71.196.5/api/v1/articles/${newNews._id}/profile`,
+              `https://medialabadmin.com/api/v1/articles/${newNews._id}/profile`,
               { headers }
             )
             xhr.send(data)
@@ -91,7 +91,7 @@ const NewsDetails = props => {
             data.append("file", selectedFiles1[0])
             xhr.open(
               "PUT",
-              `http://167.71.196.5/api/v1/articles/${newNews._id}/photo`,
+              `https://medialabadmin.com/api/v1/articles/${newNews._id}/photo`,
               { headers }
             )
             xhr.send(data)
@@ -362,7 +362,7 @@ const NewsDetails = props => {
                             projectDetail.profile && (
                               <img
                                 className="mt-4"
-                                src={`http://167.71.196.5/upload/${projectDetail.profile}`}
+                                src={`https://medialabadmin.com/upload/${projectDetail.profile}`}
                                 alt={"profile"}
                                 height={80}
                               />
@@ -443,7 +443,7 @@ const NewsDetails = props => {
                             projectDetail.image && (
                               <img
                                 className="mt-4"
-                                src={`http://167.71.196.5/upload/${projectDetail.image}`}
+                                src={`https://medialabadmin.com/upload/${projectDetail.image}`}
                                 alt={"zurag"}
                                 height={80}
                               />

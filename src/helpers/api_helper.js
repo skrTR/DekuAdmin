@@ -3,8 +3,8 @@ import axios from "axios"
 const obj = JSON.parse(localStorage.getItem("amazon-token"))
 const token = `Bearer ${obj}`
 //apply base url for axios
-const API_URL = "http://167.71.196.5"
-
+const API_URL = "https://medialabadmin.com"
+// https://medialabadmin.com
 const axiosApi = axios.create({
   baseURL: API_URL,
 })

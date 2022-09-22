@@ -42,7 +42,7 @@ const BrochureCreate = () => {
     onSubmit: values => {
       axios
         .post(
-          `http://167.71.196.5/api/v1/brochures`,
+          `https://medialabadmin.com/api/v1/brochures`,
           {
             title: values["title"],
             body: values["body"],
@@ -61,7 +61,7 @@ const BrochureCreate = () => {
             data.append("file", selectedFiles[0])
             xhr.open(
               "PUT",
-              `http://167.71.196.5/api/v1/brochures/${newNews._id}/profile`,
+              `https://medialabadmin.com/api/v1/brochures/${newNews._id}/profile`,
               { headers }
             )
             xhr.send(data)
@@ -72,7 +72,7 @@ const BrochureCreate = () => {
             data1.append("file", selectedFiles[0])
             xhr1.open(
               "PUT",
-              `http://167.71.196.5/api/v1/brochures/${newNews._id}/photo`,
+              `https://medialabadmin.com/api/v1/brochures/${newNews._id}/photo`,
               { headers }
             )
             xhr1.send(data1)

@@ -19,7 +19,7 @@ const CardProject = ({ projects }) => {
                 <div className="avatar-md me-4">
                   <span className="avatar-title rounded-circle bg-light text-danger font-size-16">
                     <img
-                      src={`http://167.71.196.5/upload/${project.profile}`}
+                      src={`https://medialabadmin.com/upload/${project.profile}`}
                       alt=""
                       height="50"
                     />

@@ -42,7 +42,7 @@ const TeamCreate = () => {
     onSubmit: values => {
       axios
         .post(
-          `http://167.71.196.5/api/v1/users`,
+          `https://medialabadmin.com/api/v1/users`,
           {
             email: values["email"],
             lastName: values["lastName"],
@@ -65,7 +65,7 @@ const TeamCreate = () => {
             data.append("file", selectedFiles[0])
             xhr.open(
               "PUT",
-              `http://167.71.196.5/api/v1/users/${newNews._id}/profile`,
+              `https://medialabadmin.com/api/v1/users/${newNews._id}/profile`,
               { headers }
             )
             xhr.send(data)

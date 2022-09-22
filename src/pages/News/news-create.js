@@ -42,7 +42,7 @@ const NewsCreate = () => {
     onSubmit: values => {
       axios
         .post(
-          `http://167.71.196.5/api/v1/articles`,
+          `https://medialabadmin.com/api/v1/articles`,
           {
             title: values["title"],
             body: values["body"],
@@ -62,7 +62,7 @@ const NewsCreate = () => {
             data.append("file", selectedFiles[0])
             xhr.open(
               "PUT",
-              `http://167.71.196.5/api/v1/articles/${newNews._id}/profile`,
+              `https://medialabadmin.com/api/v1/articles/${newNews._id}/profile`,
               { headers }
             )
             xhr.send(data)
@@ -73,7 +73,7 @@ const NewsCreate = () => {
             data1.append("file", selectedFiles1[0])
             xhr1.open(
               "PUT",
-              `http://167.71.196.5/api/v1/articles/${newNews._id}/photo`,
+              `https://medialabadmin.com/api/v1/articles/${newNews._id}/photo`,
               { headers }
             )
             xhr1.send(data1)

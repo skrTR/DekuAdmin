@@ -74,7 +74,7 @@ const Team = props => {
     onSubmit: values => {
       axios
         .put(
-          `http://167.71.196.5/api/v1/users/${contact.id}`,
+          `https://medialabadmin.com/api/v1/users/${contact.id}`,
           {
             email: values["email"],
             lastName: values["lastName"],
@@ -94,7 +94,7 @@ const Team = props => {
             data.append("file", selectedFiles[0])
             xhr.open(
               "PUT",
-              `http://167.71.196.5/api/v1/users/${contact.id}/profile`,
+              `https://medialabadmin.com/api/v1/users/${contact.id}/profile`,
               { headers }
             )
             xhr.send(data)
@@ -130,7 +130,7 @@ const Team = props => {
             <div>
               <img
                 className="rounded-circle avatar-xs"
-                src={`http://167.71.196.5/upload/${cellProps.profile}`}
+                src={`https://medialabadmin.com/upload/${cellProps.profile}`}
                 alt=""
               />
             </div>

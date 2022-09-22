@@ -61,7 +61,7 @@ const BrochureDetail = props => {
     onSubmit: values => {
       axios
         .put(
-          `http://167.71.196.5/api/v1/brochures/${brochureDetail._id}`,
+          `https://medialabadmin.com/api/v1/brochures/${brochureDetail._id}`,
           {
             title: values["title"],
             body: values["body"],
@@ -81,7 +81,7 @@ const BrochureDetail = props => {
             data.append("file", selectedFiles[0])
             xhr.open(
               "PUT",
-              `http://167.71.196.5/api/v1/brochures/${newNews._id}/profile`,
+              `https://medialabadmin.com/api/v1/brochures/${newNews._id}/profile`,
               { headers }
             )
             xhr.send(data)
@@ -92,7 +92,7 @@ const BrochureDetail = props => {
             data1.append("file", selectedFiles[0])
             xhr1.open(
               "PUT",
-              `http://167.71.196.5/api/v1/brochures/${newNews._id}/photo`,
+              `https://medialabadmin.com/api/v1/brochures/${newNews._id}/photo`,
               { headers }
             )
             xhr1.send(data1)
@@ -360,7 +360,7 @@ const BrochureDetail = props => {
                             brochureDetail.profile && (
                               <img
                                 className="mt-4"
-                                src={`http://167.71.196.5/upload/${brochureDetail.profile}`}
+                                src={`https://medialabadmin.com/upload/${brochureDetail.profile}`}
                                 alt={"profile"}
                                 height={80}
                               />
@@ -441,7 +441,7 @@ const BrochureDetail = props => {
                             brochureDetail.image && (
                               <img
                                 className="mt-4"
-                                src={`http://167.71.196.5/upload/${brochureDetail.image}`}
+                                src={`https://medialabadmin.com/upload/${brochureDetail.image}`}
                                 alt={"zurag"}
                                 height={80}
                               />
